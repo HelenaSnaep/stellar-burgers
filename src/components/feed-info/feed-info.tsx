@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import { useAppSelector } from '../../services/hooks/hooks';
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '@ui';
 
@@ -10,12 +10,10 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
     .slice(0, 20);
 
 export const FeedInfo: FC = () => {
-  /** TODO: взять переменные из стора */
-  const orders: TOrder[] = [];
+  const { orders } = useAppSelector((state) => state.feed);
   const feed = {};
 
   const readyOrders = getOrders(orders, 'done');
-
   const pendingOrders = getOrders(orders, 'pending');
 
   return (

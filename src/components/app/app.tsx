@@ -15,12 +15,21 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 import '../../index.css';
 import styles from './app.module.css';
+import { useAppDispatch } from '../../services/hooks/hooks';
+import { useEffect } from 'react';
+import { fetchIngredients } from '../../services/slices/ingredients-slice/ingredients-slice';
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const background = location.state?.background;
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+    //dispatch(checkUserAuth());
+  }, [dispatch]);
 
   const handleModalClose = () => {
     navigate(-1);
