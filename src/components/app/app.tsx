@@ -18,6 +18,7 @@ import styles from './app.module.css';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredients-slice/ingredients-slice';
+import { checkUserAuth } from '../../services/slices/user/user-thunks';
 
 const App = () => {
   const location = useLocation();
@@ -28,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    //dispatch(checkUserAuth());
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   const handleModalClose = () => {
