@@ -2,7 +2,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import ingredientsReducer from './slices/ingredients-slice/ingredients-slice';
 import feedReducer from './slices/feed-slice/feed-slice';
 import orderReducer from './slices/order-slice/order-slice';
-import constructorReducer from './slices/constructor-slice/constructor-slice';
+import burgerConstructorReducer from './slices/burger-constructor-slice/burger-constructor-slice';
+
+import { TIngredient } from '@utils-types';
+import { TConstructorIngredient } from './slices/burger-constructor-slice/burger-constructor-slice';
 
 import {
   TypedUseSelectorHook,
@@ -14,7 +17,7 @@ const rootReducer = {
   ingredients: ingredientsReducer,
   feed: feedReducer,
   order: orderReducer,
-  constructor: constructorReducer
+  burgerConstructor: burgerConstructorReducer
 };
 
 const store = configureStore({
@@ -22,7 +25,26 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = {
+  ingredients: {
+    ingredients: TIngredient[];
+    isLoading: boolean;
+    error: string | null;
+  };
+  burgerConstructor: {
+    bun: TIngredient | null;
+    ingredients: TConstructorIngredient[];
+  };
+  feed: {
+    orders: any[];
+    isLoading: boolean;
+  };
+  order: {
+    orderModalData: any | null;
+    orderRequest: boolean;
+  };
+};
+
 export type AppDispatch = typeof store.dispatch;
 
 export const useDispatch = () => dispatchHook<AppDispatch>();

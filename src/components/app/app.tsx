@@ -15,14 +15,14 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 import '../../index.css';
 import styles from './app.module.css';
-import { useAppDispatch } from '../../services/hooks/hooks';
+import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredients-slice/ingredients-slice';
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const background = location.state?.background;
 

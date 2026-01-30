@@ -1,10 +1,10 @@
 import { FC, useMemo } from 'react';
 import { Preloader } from '@ui';
 import { OrderInfoUI } from '@ui';
+import { useSelector } from '../../services/store';
 import { TIngredient } from '@utils-types';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
   const orderData = {
     createdAt: '',
     ingredients: [],
