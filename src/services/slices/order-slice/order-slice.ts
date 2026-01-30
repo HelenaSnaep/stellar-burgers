@@ -1,16 +1,35 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { orderBurgerApi } from '@api';
+import { orderBurgerApi, getOrderByNumberApi } from '@api';
 import { TOrder } from '@utils-types';
 
 interface OrderState {
   orderModalData: TOrder | null;
   orderRequest: boolean;
+
+  orders: TOrder[];
 }
 
 const initialState: OrderState = {
   orderModalData: null,
-  orderRequest: false
+  orderRequest: false,
+  orders: []
 };
+
+export const fetchNewOrder = createAsyncThunk(
+  'order/fetchNewOrder',
+  async (ingredients: string[]) => {
+    const response = await orderBurgerApi(ingredients);
+    return response.order;
+  }
+);
+
+export const getOrderByNumber = createAsyncThunk(
+  'order/getByNumber',
+  async (number: number) => {
+    const response = await getOrderByNumberApi(number);
+    return response.orders[0]; // API возвращает массив, берем первый элемент
+  }
+);
 
 const orderSlice = createSlice({
   name: 'order',
@@ -32,18 +51,13 @@ const orderSlice = createSlice({
       })
       .addCase(fetchNewOrder.rejected, (state) => {
         state.orderRequest = false;
+      })
+
+      .addCase(getOrderByNumber.fulfilled, (state, action) => {
+        state.orderModalData = action.payload;
       });
   }
 });
 
-export const fetchNewOrder = createAsyncThunk(
-  'order/fetchNewOrder',
-  async (ingredients: string[]) => {
-    const response = await orderBurgerApi(ingredients);
-    return response.order;
-  }
-);
-
 export const { clearOrder } = orderSlice.actions;
-
 export default orderSlice.reducer;

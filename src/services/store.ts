@@ -4,7 +4,7 @@ import feedReducer from './slices/feed-slice/feed-slice';
 import orderReducer from './slices/order-slice/order-slice';
 import burgerConstructorReducer from './slices/burger-constructor-slice/burger-constructor-slice';
 
-import { TIngredient } from '@utils-types';
+import { TIngredient, TOrder } from '@utils-types';
 import { TConstructorIngredient } from './slices/burger-constructor-slice/burger-constructor-slice';
 
 import {
@@ -36,12 +36,13 @@ export type RootState = {
     ingredients: TConstructorIngredient[];
   };
   feed: {
-    orders: any[];
+    orders: TOrder[];
     isLoading: boolean;
   };
   order: {
-    orderModalData: any | null;
+    orderModalData: TOrder | null;
     orderRequest: boolean;
+    orders: TOrder[];
   };
 };
 
