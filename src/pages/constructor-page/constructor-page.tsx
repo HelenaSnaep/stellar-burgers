@@ -1,19 +1,25 @@
+import { useSelector } from '../../services/store';
 import styles from './constructor-page.module.css';
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
-
-import { BurgerIngredients } from '@components';
-import { BurgerConstructor } from '@components';
+import { BurgerIngredients, BurgerConstructor } from '@components';
 import { Preloader } from '@ui';
 import { FC } from 'react';
 
 export const ConstructorPage: FC = () => {
-  const { isLoading: isIngredientsLoading } = useAppSelector(
+  const { ingredients, isLoading, error } = useSelector(
     (state) => state.ingredients
   );
 
+  console.log('Ингредиенты:', ingredients);
+  console.log('Загрузка:', isLoading);
+  console.log('Ошибка:', error);
+
+  if (error) {
+    return <div className={styles.error}>Ошибка: {error}</div>;
+  }
+
   return (
     <>
-      {isIngredientsLoading ? (
+      {isLoading ? (
         <Preloader />
       ) : (
         <main className={styles.containerMain}>

@@ -1,21 +1,57 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getFeedsApi } from '@api';
+import { getFeedsApi, getOrdersApi } from '@api';
 import { TOrder } from '@utils-types';
+
+interface FeedResponse {
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+}
+
+export const fetchFeed = createAsyncThunk<
+  FeedResponse, // ✅ Возвращаем полный ответ
+  void,
+  { rejectValue: string }
+>('feed/fetchFeed', async (_, { rejectWithValue }) => {
+  try {
+    const data = await getFeedsApi();
+    return {
+      orders: data.orders,
+      total: data.total,
+      totalToday: data.totalToday
+    };
+  } catch {
+    return rejectWithValue('Ошибка загрузки ленты заказов');
+  }
+});
+
+export const fetchUserOrders = createAsyncThunk<
+  TOrder[],
+  void,
+  { rejectValue: string }
+>('feed/fetchUserOrders', async (_, { rejectWithValue }) => {
+  try {
+    return await getOrdersApi();
+  } catch (error) {
+    return rejectWithValue('Ошибка загрузки заказов пользователя');
+  }
+});
 
 interface FeedState {
   orders: TOrder[];
+  total: number;
+  totalToday: number;
   isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: FeedState = {
   orders: [],
-  isLoading: false
+  total: 0,
+  totalToday: 0,
+  isLoading: false,
+  error: null
 };
-
-export const fetchFeed = createAsyncThunk('feed/fetchFeed', async () => {
-  const data = await getFeedsApi();
-  return data.orders;
-});
 
 export const feedSlice = createSlice({
   name: 'feed',
@@ -23,12 +59,33 @@ export const feedSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+
       .addCase(fetchFeed.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchFeed.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.orders = action.payload.orders; // ✅ Сохраняем заказы
+        state.total = action.payload.total; // ✅ Сохраняем total
+        state.totalToday = action.payload.totalToday; // ✅ Сохраняем totalToday
+      })
+      .addCase(fetchFeed.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload ?? 'Ошибка';
+      })
+
+      .addCase(fetchUserOrders.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.orders = action.payload;
+      })
+      .addCase(fetchUserOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload ?? 'Ошибка';
       });
   }
 });

@@ -1,4 +1,10 @@
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  useMatch
+} from 'react-router-dom';
 import {
   ConstructorPage,
   Feed,
@@ -27,6 +33,12 @@ const App = () => {
 
   const background = location.state?.background;
 
+  const feedMatch = useMatch('/feed/:number');
+  const profileMatch = useMatch('/profile/orders/:number');
+
+  const orderNumber = feedMatch?.params.number || profileMatch?.params.number;
+  const orderTitle = orderNumber ? `#${orderNumber}` : 'Детали заказа';
+
   useEffect(() => {
     dispatch(fetchIngredients());
     dispatch(checkUserAuth());
@@ -43,6 +55,10 @@ const App = () => {
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
+
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route path='/profile/orders/:number' element={<OrderInfo />} />
 
         <Route
           path='/login'
@@ -102,7 +118,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Детали заказа' onClose={handleModalClose}>
+              <Modal title={orderTitle} onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
             }
@@ -119,7 +135,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='Детали заказа' onClose={handleModalClose}>
+                <Modal title={orderTitle} onClose={handleModalClose}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
