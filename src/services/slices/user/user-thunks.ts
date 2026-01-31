@@ -9,6 +9,7 @@ import {
   logoutApi
 } from '@api';
 import { TUser } from '@utils-types';
+import { setCookie } from '../../../utils/cookie';
 
 export const registerUser = createAsyncThunk<
   TUser,
@@ -18,6 +19,7 @@ export const registerUser = createAsyncThunk<
   try {
     const response = await registerUserApi(data);
     localStorage.setItem('refreshToken', response.refreshToken);
+    setCookie('accessToken', response.accessToken);
     return response.user;
   } catch {
     return rejectWithValue('Ошибка при регистрации');
@@ -32,6 +34,7 @@ export const loginUser = createAsyncThunk<
   try {
     const response = await loginUserApi(data);
     localStorage.setItem('refreshToken', response.refreshToken);
+    setCookie('accessToken', response.accessToken);
     return response.user;
   } catch {
     return rejectWithValue('Ошибка при входе');

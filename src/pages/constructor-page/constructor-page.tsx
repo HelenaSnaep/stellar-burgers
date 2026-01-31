@@ -9,10 +9,6 @@ export const ConstructorPage: FC = () => {
     (state) => state.ingredients
   );
 
-  console.log('Ингредиенты:', ingredients);
-  console.log('Загрузка:', isLoading);
-  console.log('Ошибка:', error);
-
   if (error) {
     return <div className={styles.error}>Ошибка: {error}</div>;
   }
