@@ -6,6 +6,7 @@ import {
   clearOrder,
   createOrder
 } from '../../services/slices/order-slice/order-slice';
+import { ConstructorItems } from '../../components/ui/burger-constructor/type';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();

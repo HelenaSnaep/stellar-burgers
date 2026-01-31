@@ -9,7 +9,7 @@ interface FeedResponse {
 }
 
 export const fetchFeed = createAsyncThunk<
-  FeedResponse, // ✅ Возвращаем полный ответ
+  FeedResponse,
   void,
   { rejectValue: string }
 >('feed/fetchFeed', async (_, { rejectWithValue }) => {
@@ -66,9 +66,9 @@ export const feedSlice = createSlice({
       })
       .addCase(fetchFeed.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orders = action.payload.orders; // ✅ Сохраняем заказы
-        state.total = action.payload.total; // ✅ Сохраняем total
-        state.totalToday = action.payload.totalToday; // ✅ Сохраняем totalToday
+        state.orders = action.payload.orders;
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
       })
       .addCase(fetchFeed.rejected, (state, action) => {
         state.isLoading = false;

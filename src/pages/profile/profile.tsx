@@ -2,6 +2,7 @@ import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { updateUser } from '../../services/slices/user/user-thunks';
+import { TRegisterData } from '@api';
 
 export const Profile: FC = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export const Profile: FC = () => {
     e.preventDefault();
 
     try {
-      const updateData: any = {
+      const updateData: Partial<TRegisterData> = {
         name: formValue.name,
         email: formValue.email
       };

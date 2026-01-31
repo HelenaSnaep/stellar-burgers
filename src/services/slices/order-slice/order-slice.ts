@@ -36,7 +36,7 @@ export const getOrderByNumber = createAsyncThunk<
 >('order/getByNumber', async (number: number, { rejectWithValue }) => {
   try {
     const response = await getOrderByNumberApi(number);
-    return response.orders[0]; // API возвращает массив, берем первый элемент
+    return response.orders[0];
   } catch (error) {
     return rejectWithValue('Ошибка получения заказа');
   }
