@@ -4,6 +4,10 @@ import { useDispatch } from '../../services/store';
 import { loginUser } from '../../services/slices/user/user-thunks';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+interface LocationState {
+  from?: string;
+}
+
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,7 +24,7 @@ export const Login: FC = () => {
     try {
       await dispatch(loginUser({ email, password })).unwrap();
 
-      const from = (location.state as any)?.from || '/';
+      const from = (location.state as LocationState)?.from || '/';
       navigate(from, { replace: true });
     } catch (error) {
       setErrorText('Неверный логин или пароль');
