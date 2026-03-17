@@ -40,8 +40,9 @@ describe('Constructor Product', () => {
 
   describe('ingredient modal works correctly', () => {
     it('opens ingredient modal with correct ingredient data', () => {
-      cy.contains('Детали ингредиента').should('not.exist');
-      cy.contains('Ингредиент 1').click({ force: true });
+      cy.get(SELECTORS.ingredientBun)
+        .contains('Ингредиент 1')
+        .click({ force: true });
 
       cy.get('#modals')
         .should('contain', 'Детали ингредиента')
@@ -49,19 +50,19 @@ describe('Constructor Product', () => {
     });
 
     it('closes ingredient modal by close button', () => {
-      cy.contains('Ингредиент 1').click({ force: true });
+      cy.get(SELECTORS.ingredientBun)
+        .contains('Ингредиент 1')
+        .click({ force: true });
 
       cy.get('#modals')
         .should('contain', 'Детали ингредиента')
         .and('contain', 'Ингредиент 1');
 
-      cy.get('#modals')
-        .find('button')
-        .first()
+      cy.get(SELECTORS.modalCloseButton)
+        .should('be.visible')
         .click({ force: true });
 
-      cy.get('#modals')
-        .should('not.contain', 'Ингредиент 1');
+      cy.get('#modals').should('not.contain', 'Ингредиент 1');
     });
   });
 });
