@@ -65,4 +65,57 @@ describe('Constructor Product', () => {
       cy.get('#modals').should('not.contain', 'Ингредиент 1');
     });
   });
+  describe('order modal works correctly', () => {
+    beforeEach(() => {
+      cy.intercept('GET', 'api/ingredients', {
+        fixture: 'ingredients.json'
+      });
+
+      cy.intercept('GET', 'api/auth/user', {
+        fixture: 'user.json'
+      });
+
+      cy.intercept('POST', 'api/orders', {
+        fixture: 'order.json'
+      }).as('postOrder');
+
+      window.localStorage.setItem(
+        'refreshToken',
+        JSON.stringify('test-refresh-token')
+      );
+
+      cy.setCookie('accessToken', 'test-access-token');
+
+      cy.visit(testUrl);
+    });
+
+    afterEach(() => {
+      cy.clearLocalStorage();
+      cy.clearCookies();
+    });
+
+    it('creates order and clears constructor', () => {
+      cy.addIngredient('bun');
+      cy.addIngredient('main');
+      cy.addIngredient('sauce');
+
+      cy.submitOrder();
+
+      cy.wait('@postOrder');
+
+      cy.get(SELECTORS.orderNumber)
+        .should('contain', '123456');
+
+      cy.get(SELECTORS.modalCloseButton)
+        .click({ force: true });
+
+      cy.get(SELECTORS.orderNumber)
+        .should('not.exist');
+
+      cy.get(SELECTORS.constructor)
+        .should('not.contain', 'Ингредиент 1')
+        .and('not.contain', 'Ингредиент 2')
+        .and('not.contain', 'Ингредиент 4');
+    });
+  });
 });
