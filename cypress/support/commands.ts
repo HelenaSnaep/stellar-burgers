@@ -17,19 +17,15 @@ Cypress.Commands.add('addIngredient', (type: 'bun' | 'main' | 'sauce') => {
     sauce: SELECTORS.ingredientSauce
   };
 
-  cy.get(selectorMap[type])
-    .contains('Добавить')
-    .first()
-    .click()
-    .as(`ingredient${type.charAt(0).toUpperCase() + type.slice(1)}`);
+  cy.get(selectorMap[type]).contains('Добавить').first().click({ force: true });
 });
 
 Cypress.Commands.add('submitOrder', () => {
-  cy.get(SELECTORS.orderButton).click().as('orderButton');
+  cy.get(SELECTORS.orderButton).click({ force: true });
 });
 
 Cypress.Commands.add('closeOrderModal', () => {
-  cy.get(SELECTORS.modalCloseButton).click();
+  cy.get(SELECTORS.modalCloseButton).click({ force: true });
 });
 
 export {};

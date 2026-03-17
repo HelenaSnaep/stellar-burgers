@@ -19,58 +19,52 @@ export const BurgerIngredientsUI: FC<BurgerIngredientsUIProps> = memo(
     saucesRef,
     onTabClick
   }) => (
-    <>
-      <section className={styles.burger_ingredients}>
-        <nav>
-          <ul className={styles.menu}>
-            <Tab value='bun' active={currentTab === 'bun'} onClick={onTabClick}>
-              Булки
-            </Tab>
-            <Tab
-              value='main'
-              active={currentTab === 'main'}
-              onClick={onTabClick}
-            >
-              Начинки
-            </Tab>
-            <Tab
-              value='sauce'
-              active={currentTab === 'sauce'}
-              onClick={onTabClick}
-            >
-              Соусы
-            </Tab>
-          </ul>
-        </nav>
-        <div className={styles.content}>
-          <div data-cy='ingredients-bun'>
-            <IngredientsCategory
-              title='Булки'
-              titleRef={titleBunRef}
-              ingredients={buns}
-              ref={bunsRef}
-            />
-          </div>
+    <section className={styles.burger_ingredients}>
+      <nav>
+        <ul className={styles.menu}>
+          <Tab value='bun' active={currentTab === 'bun'} onClick={onTabClick}>
+            Булки
+          </Tab>
 
-          <div data-cy='ingredients-main'>
-            <IngredientsCategory
-              title='Начинки'
-              titleRef={titleMainRef}
-              ingredients={mains}
-              ref={mainsRef}
-            />
-          </div>
+          <Tab value='main' active={currentTab === 'main'} onClick={onTabClick}>
+            Начинки
+          </Tab>
 
-          <div data-cy='ingredients-sauce'>
-            <IngredientsCategory
-              title='Соусы'
-              titleRef={titleSaucesRef}
-              ingredients={sauces}
-              ref={saucesRef}
-            />
-          </div>
-        </div>
-      </section>
-    </>
+          <Tab
+            value='sauce'
+            active={currentTab === 'sauce'}
+            onClick={onTabClick}
+          >
+            Соусы
+          </Tab>
+        </ul>
+      </nav>
+
+      <div className={styles.content}>
+        <IngredientsCategory
+          title='Булки'
+          titleRef={titleBunRef}
+          ingredients={buns}
+          ref={bunsRef}
+          data-cy='ingredients-bun'
+        />
+
+        <IngredientsCategory
+          title='Начинки'
+          titleRef={titleMainRef}
+          ingredients={mains}
+          ref={mainsRef}
+          data-cy='ingredients-main'
+        />
+
+        <IngredientsCategory
+          title='Соусы'
+          titleRef={titleSaucesRef}
+          ingredients={sauces}
+          ref={saucesRef}
+          data-cy='ingredients-sauce'
+        />
+      </div>
+    </section>
   )
 );

@@ -22,7 +22,7 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
     {constructorItems.bun ? (
       <div
         className={`${styles.element} mb-4 mr-4`}
-        data-cy='constructor-bun-top'
+        data-cy='constructor-bun-1'
       >
         <ConstructorElement
           type='top'
@@ -40,7 +40,7 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
       </div>
     )}
 
-    <ul className={styles.elements} data-cy='constructor-ingredients'>
+    <ul className={styles.elements}>
       {constructorItems.ingredients.length > 0 ? (
         constructorItems.ingredients.map(
           (item: TConstructorIngredient, index: number) => (
@@ -64,7 +64,7 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
     {constructorItems.bun ? (
       <div
         className={`${styles.element} mt-4 mr-4`}
-        data-cy='constructor-bun-bottom'
+        data-cy='constructor-bun-2'
       >
         <ConstructorElement
           type='bottom'
