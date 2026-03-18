@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store/store';
 import { useParams } from 'react-router-dom';
 import { Preloader } from '@ui';
 import { OrderInfoUI } from '@ui';
