@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store/store';
 import { BurgerConstructorUI } from '@ui';
 import {
   clearOrder,

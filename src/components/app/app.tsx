@@ -21,7 +21,7 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 import '../../index.css';
 import styles from './app.module.css';
-import { useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/store/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredients-slice/ingredients-slice';
 import { checkUserAuth } from '../../services/slices/user/user-thunks';
