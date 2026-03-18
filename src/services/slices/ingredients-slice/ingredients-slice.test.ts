@@ -1,12 +1,6 @@
-import reducer, { fetchIngredients } from './ingredients-slice';
+import reducer, { fetchIngredients, initialState } from './ingredients-slice';
 
 describe('ingredients reducer', () => {
-  const initialState = {
-    ingredients: [],
-    isLoading: false,
-    error: null
-  };
-
   const mockIngredients = [
     {
       _id: '1',
@@ -37,19 +31,21 @@ describe('ingredients reducer', () => {
   ];
 
   it('should return the initial state', () => {
-    expect(reducer(undefined, { type: 'unknow' })).toEqual(initialState);
+    expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
   });
 
   it('should handle fetchIngredients.pending', () => {
     const state = reducer(initialState, {
       type: fetchIngredients.pending.type
     });
+
     expect(state).toEqual({
-      ingredients: [],
+      ...initialState,
       isLoading: true,
       error: null
     });
   });
+
   it('should handle fetchIngredients.fulfilled', () => {
     const state = reducer(
       { ...initialState, isLoading: true },
@@ -58,12 +54,15 @@ describe('ingredients reducer', () => {
         payload: mockIngredients
       }
     );
+
     expect(state).toEqual({
+      ...initialState,
       ingredients: mockIngredients,
       isLoading: false,
       error: null
     });
   });
+
   it('should handle fetchIngredients.rejected', () => {
     const state = reducer(
       { ...initialState, isLoading: true },
@@ -72,8 +71,9 @@ describe('ingredients reducer', () => {
         payload: 'Failed to load ingredients'
       }
     );
+
     expect(state).toEqual({
-      ingredients: [],
+      ...initialState,
       isLoading: false,
       error: 'Failed to load ingredients'
     });

@@ -1,14 +1,10 @@
-import reducer, { fetchFeed, fetchUserOrders } from './feed-slice';
+import reducer, {
+  fetchFeed,
+  fetchUserOrders,
+  initialState
+} from './feed-slice';
 
 describe('feed reducer', () => {
-  const initialState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    isLoading: false,
-    error: null
-  };
-
   const mockOrders = [
     {
       _id: '1',
@@ -38,7 +34,14 @@ describe('feed reducer', () => {
     const state = reducer(initialState, {
       type: fetchFeed.pending.type
     });
+
+    expect(state).toEqual({
+      ...initialState,
+      isLoading: true,
+      error: null
+    });
   });
+
   it('should handle fetchFeed.fulfilled', () => {
     const state = reducer(
       { ...initialState, isLoading: true },
@@ -51,6 +54,7 @@ describe('feed reducer', () => {
         }
       }
     );
+
     expect(state).toEqual({
       orders: mockOrders,
       total: 500,
@@ -59,6 +63,7 @@ describe('feed reducer', () => {
       error: null
     });
   });
+
   it('should handle fetchFeed.rejected', () => {
     const state = reducer(
       { ...initialState, isLoading: true },
@@ -67,17 +72,26 @@ describe('feed reducer', () => {
         payload: 'Ошибка загрузки ленты заказов'
       }
     );
+
+    expect(state).toEqual({
+      ...initialState,
+      isLoading: false,
+      error: 'Ошибка загрузки ленты заказов'
+    });
   });
+
   it('should handle fetchUserOrders.pending', () => {
     const state = reducer(initialState, {
       type: fetchUserOrders.pending.type
     });
+
     expect(state).toEqual({
       ...initialState,
       isLoading: true,
       error: null
     });
   });
+
   it('should handle fetchUserOrders.fulfilled', () => {
     const state = reducer(
       { ...initialState, isLoading: true },
@@ -93,6 +107,7 @@ describe('feed reducer', () => {
       isLoading: false
     });
   });
+
   it('should handle fetchUserOrders.rejected', () => {
     const state = reducer(
       { ...initialState, isLoading: true },

@@ -1,6 +1,7 @@
 import reducer, {
   addIngredient,
-  removeIngredient
+  removeIngredient,
+  initialState
 } from './burger-constructor-slice';
 
 jest.mock('uuid', () => ({
@@ -8,10 +9,6 @@ jest.mock('uuid', () => ({
 }));
 
 describe('burgerConstructor reducer', () => {
-  const initialState = {
-    bun: null,
-    ingredients: []
-  };
   const bun = {
     _id: '1',
     name: 'Булка',
@@ -26,7 +23,7 @@ describe('burgerConstructor reducer', () => {
     image_large: 'bun-large.png'
   };
 
-  const sause = {
+  const sauce = {
     _id: '2',
     name: 'Соус',
     type: 'sauce',
@@ -39,8 +36,10 @@ describe('burgerConstructor reducer', () => {
     image_mobile: 'sauce-mobile.png',
     image_large: 'sauce-large.png'
   };
-  it('should add bun ', () => {
+
+  it('should add bun', () => {
     const state = reducer(initialState, addIngredient(bun));
+
     expect(state).toEqual({
       bun: {
         ...bun,
@@ -49,40 +48,45 @@ describe('burgerConstructor reducer', () => {
       ingredients: []
     });
   });
-  it('should add ingredients', () => {
-    const state = reducer(initialState, addIngredient(sause));
+
+  it('should add ingredient', () => {
+    const state = reducer(initialState, addIngredient(sauce));
+
     expect(state).toEqual({
       bun: null,
       ingredients: [
         {
-          ...sause,
+          ...sauce,
           id: 'test-uuid'
         }
       ]
     });
   });
+
   it('should remove ingredient', () => {
     const prevState = {
-      bun: null,
+      ...initialState,
       ingredients: [
         {
-          ...sause,
+          ...sauce,
           id: 'test-uuid'
         },
         {
-          ...sause,
+          ...sauce,
           _id: '3',
           name: 'Начинка',
           id: 'another-id'
         }
       ]
     };
+
     const state = reducer(prevState, removeIngredient('test-uuid'));
+
     expect(state).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [
         {
-          ...sause,
+          ...sauce,
           _id: '3',
           name: 'Начинка',
           id: 'another-id'

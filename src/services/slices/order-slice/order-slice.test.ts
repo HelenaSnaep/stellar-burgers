@@ -1,17 +1,11 @@
 import reducer, {
   clearOrder,
   createOrder,
-  getOrderByNumber
+  getOrderByNumber,
+  initialState
 } from './order-slice';
 
 describe('order reducer', () => {
-  const initialState = {
-    orderModalData: null,
-    orderRequest: false,
-    orders: [],
-    error: null
-  };
-
   const mockOrder = {
     _id: '1',
     status: 'done',
@@ -116,9 +110,9 @@ describe('order reducer', () => {
 
   it('should handle clearOrder', () => {
     const prevState = {
+      ...initialState,
       orderModalData: mockOrder,
       orderRequest: true,
-      orders: [],
       error: 'Какая-то ошибка'
     };
 
